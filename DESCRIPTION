@@ -1,0 +1,14 @@
+Package: lazyseurat
+Title:  Import And Export File-Backed Seurat Data
+Version: 0.0.0.9000
+Authors@R:
+    person("Jesko", "Wagner", , "jesko.wagner@ed.ac.uk", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-9805-7192"))
+Description: LazySeurat allows to import and export Seurat objects to and from
+    file-backed storage. Note that LazySeurat is not meant to be used during
+    analysis, but rather for data visualisation on research dissemination
+    platforms, where it can save computational costs.
+License: `use_mit_license()`
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
