@@ -70,7 +70,8 @@ write_seurat_metadata <- function(obj, outdir="."){
     out_path = file.path(outdir, "metadata", "metadata.feather")
     create_parent_dir(out_path)
     metadata = obj[[]]
-    metadata = rownames_to_column(metadata, var = "barcode")
+    barcode = rownames(metadata)
+    metadata = cbind(barcode, metadata)
     write_feather(metadata, out_path)
     invisible(out_path)
 }

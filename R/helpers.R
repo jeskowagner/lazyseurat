@@ -21,6 +21,7 @@ create_parent_dir <- function(path){
 #'
 #' @export
 #' @importFrom data.table transpose setnames as.data.table
+#' @importFrom SeuratObject LayerData
 get_dense_layer <- function(obj, assay=NULL, layer=NULL){
     counts_raw = LayerData(obj, assay = assay, layer = layer)
     # suppress warnings of large memory allocation, to be expected
