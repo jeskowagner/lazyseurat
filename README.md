@@ -9,7 +9,7 @@
 
 The goal of lazyseurat is to allow import and export Seurat objects to and from
     file-backed storage.
-    Note that LazySeurat is not meant to be used during analysis,
+    Note that lazyseurat is not meant to be used during analysis,
     but rather for data visualisation on research dissemination
     platforms, where it can save computational costs.
 
@@ -19,7 +19,7 @@ You can install the development version of lazyseurat from [GitHub](https://gith
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("jeskowagner/LazySeurat")
+devtools::install_github("jeskowagner/lazyseurat")
 ```
 
 ## Example
