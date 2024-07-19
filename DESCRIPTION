@@ -15,3 +15,8 @@ RoxygenNote: 7.3.2
 Imports:
     arrow,
     Seurat
+Depends:
+    SeuratObject,
+    data.table,
+    Seurat,
+    arrow
