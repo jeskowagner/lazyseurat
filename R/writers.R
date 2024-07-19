@@ -1,8 +1,3 @@
-library(Seurat)
-library(arrow)
-library(tidyverse)
-library(data.table)
-
 #' write_seurat_counts
 #' Write out all data stored in layers, like counts and scaled data.
 #'
@@ -12,8 +7,10 @@ library(data.table)
 #'
 #' @return Vector of written file paths.
 #' @export
+#' @importFrom arrow write_feather
+#' @importFrom Seurat Layers
 write_seurat_counts <- function(obj, outdir=".", layers=NULL){
-  
+
     if(is.null(layers)){
         layers = Layers(obj)
     }
@@ -40,6 +37,8 @@ write_seurat_counts <- function(obj, outdir=".", layers=NULL){
 #'
 #' @return Vector of written file paths.
 #' @export
+#' @importFrom data.table as.data.table
+#' @importFrom arrow write_feather
 write_seurat_embeddings <- function(obj, outdir=".", layers=NULL){
     if(is.null(layers)){
       layers = get_embedding_names(obj)
@@ -66,6 +65,7 @@ write_seurat_embeddings <- function(obj, outdir=".", layers=NULL){
 #'
 #' @return Vector of written file paths.
 #' @export
+#' @importFrom arrow write_feather
 write_seurat_metadata <- function(obj, outdir="."){
     out_path = file.path(outdir, "metadata", "metadata.feather")
     create_parent_dir(out_path)

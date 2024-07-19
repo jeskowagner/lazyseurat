@@ -4,7 +4,14 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # lazyseurat
 
@@ -30,19 +37,14 @@ devtools::install_github("jeskowagner/LazySeurat")
 
 Convert a Seurat object to allow lazy loading:
 
-
-``` r
+```{r export_seurat}
 library(lazyseurat)
 library(SeuratData)
-#> Error in library(SeuratData): there is no package called 'SeuratData'
 # Get example data
 InstallData("pbmc3k")
-#> Error in InstallData("pbmc3k"): could not find function "InstallData"
 data("pbmc3k")
-#> Warning in data("pbmc3k"): data set 'pbmc3k' not found
 
 # Export Seurat object to feather for lazy loading
 write_seurat_to_feather("lazyseurat")
-#> Error in obj[[]]: missing subscript
 ```
 
