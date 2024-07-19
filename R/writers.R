@@ -39,6 +39,7 @@ write_seurat_counts <- function(obj, outdir=".", layers=NULL){
 #' @export
 #' @importFrom data.table as.data.table
 #' @importFrom arrow write_feather
+#' @importFrom SeuratObject Embeddings
 write_seurat_embeddings <- function(obj, outdir=".", layers=NULL){
     if(is.null(layers)){
       layers = get_embedding_names(obj)
@@ -80,7 +81,7 @@ write_seurat_metadata <- function(obj, outdir="."){
 #' Write out all data stored in Seurat object.
 #'
 #' @param obj Seurat object.
-#' @param datadir Path to output directory.
+#' @param outdir Path to output directory.
 #'
 #' @return Vector of written file paths.
 #' @export

@@ -10,7 +10,7 @@ write_seurat_to_feather(obj, outdir = ".")
 \arguments{
 \item{obj}{Seurat object.}
 
-\item{datadir}{Path to output directory.}
+\item{outdir}{Path to output directory.}
 }
 \value{
 Vector of written file paths.
