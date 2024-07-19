@@ -8,6 +8,7 @@ library(arrow)
 #'
 #' @return data.frame of read data
 #' @export
+#' @importFrom arrow read_feather
 read_metadata <- function(datadir=".", col_select=NULL){
     file = file.path(datadir, "metadata", "metadata.feather")
     read_feather(file, col_select=col_select)
@@ -22,6 +23,7 @@ read_metadata <- function(datadir=".", col_select=NULL){
 #'
 #' @return data.frame of read data
 #' @export
+#' @importFrom arrow read_feather
 read_layer <- function(datadir=".", layer="counts", col_select=NULL){
     file = file.path(datadir, "layer", paste0(layer, ".feather"))
     read_feather(file, col_select=col_select, as_data_frame=FALSE)
@@ -36,6 +38,7 @@ read_layer <- function(datadir=".", layer="counts", col_select=NULL){
 #'
 #' @return data.frame of read data
 #' @export
+#' @importFrom arrow read_feather
 read_embedding <- function(datadir=".", layer="umap", col_select=NULL){
     file = file.path(datadir, "embedding", paste0(layer, ".feather"))
     read_feather(file, col_select=col_select)
@@ -51,6 +54,7 @@ read_embedding <- function(datadir=".", layer="umap", col_select=NULL){
 #'
 #' @return data.frame of read data
 #' @export
+#' @importFrom arrow read_feather
 read_data_with_meta <- function(datadir=".",
                                 what="layer",
                                 name="counts",

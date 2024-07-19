@@ -8,7 +8,7 @@
 #' @return Vector of written file paths.
 #' @export
 #' @importFrom arrow write_feather
-#' @importFrom Seurat Layers
+#' @importFrom SeuratObject Layers
 write_seurat_counts <- function(obj, outdir=".", layers=NULL){
 
     if(is.null(layers)){
