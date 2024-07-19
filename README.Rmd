@@ -29,28 +29,28 @@ You can install the development version of lazyseurat from [GitHub](https://gith
 devtools::install_github("jeskowagner/lazyseurat")
 ```
 
-## Example
+<!-- ## Example -->
 
-Convert a Seurat object to allow lazy loading:
+<!-- Convert a Seurat object to allow lazy loading: -->
 
-```{r export_seurat}
-library(lazyseurat)
+<!-- ```{r export_seurat} -->
+<!-- library(lazyseurat) -->
 
-# Install SeuratData to get example data
-if(!requireNamespace("SeuratData", quietly = TRUE)){
-    devtools::install_github('satijalab/seurat-data')
-}
+<!-- # Install SeuratData to get example data -->
+<!-- if(!requireNamespace("SeuratData", quietly = TRUE)){ -->
+<!--     devtools::install_github('satijalab/seurat-data') -->
+<!-- } -->
 
-library(SeuratData)
+<!-- library(SeuratData) -->
 
-# Download example data
-if("pbmc3k.SeuratData" %in% rownames(InstalledData())){
-    data("pbmc3k")
-} else {
-    InstallData("pbmc3k")
-}
+<!-- # Download example data -->
+<!-- if("pbmc3k.SeuratData" %in% rownames(InstalledData())){ -->
+<!--     data("pbmc3k") -->
+<!-- } else { -->
+<!--     InstallData("pbmc3k") -->
+<!-- } -->
 
-# Export Seurat object to feather for lazy loading
-write_seurat_to_feather(pmbc3k, "lazyseurat")
-```
+<!-- # Export Seurat object to feather for lazy loading -->
+<!-- write_seurat_to_feather(pmbc3k, "lazyseurat") -->
+<!-- ``` -->
 
