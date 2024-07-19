@@ -9,9 +9,9 @@ library(arrow)
 #' @return data.frame of read data
 #' @export
 #' @importFrom arrow read_feather
-read_metadata <- function(datadir=".", col_select=NULL){
-    file = file.path(datadir, "metadata", "metadata.feather")
-    read_feather(file, col_select=col_select)
+read_metadata <- function(datadir = ".", col_select = NULL) {
+  file <- file.path(datadir, "metadata", "metadata.feather")
+  read_feather(file, col_select = col_select)
 }
 
 #' read_layer
@@ -24,9 +24,9 @@ read_metadata <- function(datadir=".", col_select=NULL){
 #' @return data.frame of read data
 #' @export
 #' @importFrom arrow read_feather
-read_layer <- function(datadir=".", layer="counts", col_select=NULL){
-    file = file.path(datadir, "layer", paste0(layer, ".feather"))
-    read_feather(file, col_select=col_select, as_data_frame=FALSE)
+read_layer <- function(datadir = ".", layer = "counts", col_select = NULL) {
+  file <- file.path(datadir, "layer", paste0(layer, ".feather"))
+  read_feather(file, col_select = col_select, as_data_frame = FALSE)
 }
 
 #' read_embedding
@@ -39,9 +39,9 @@ read_layer <- function(datadir=".", layer="counts", col_select=NULL){
 #' @return data.frame of read data
 #' @export
 #' @importFrom arrow read_feather
-read_embedding <- function(datadir=".", layer="umap", col_select=NULL){
-    file = file.path(datadir, "embedding", paste0(layer, ".feather"))
-    read_feather(file, col_select=col_select)
+read_embedding <- function(datadir = ".", layer = "umap", col_select = NULL) {
+  file <- file.path(datadir, "embedding", paste0(layer, ".feather"))
+  read_feather(file, col_select = col_select)
 }
 
 #' read_data_with_meta
@@ -55,18 +55,18 @@ read_embedding <- function(datadir=".", layer="umap", col_select=NULL){
 #' @return data.frame of read data
 #' @export
 #' @importFrom arrow read_feather
-read_data_with_meta <- function(datadir=".",
-                                what="layer",
-                                name="counts",
-                                col_select=NULL){
-    reader_FUN = switch(what,
-                        "layer" = read_layer,
-                        "embedding" = read_embedding,
-                        stop("`what` must be 'layer' or 'embedding'"))
+read_data_with_meta <- function(datadir = ".",
+                                what = "layer",
+                                name = "counts",
+                                col_select = NULL) {
+  reader <- switch(what,
+    "layer" = read_layer,
+    "embedding" = read_embedding,
+    stop("`what` must be 'layer' or 'embedding'")
+  )
 
-    metadata = read_metadata(datadir=datadir)
-    data = reader_FUN(datadir=datadir, layer=name, col_select=col_select)
-    data = cbind(metadata, data)
-    data
+  metadata <- read_metadata(datadir = datadir)
+  data <- reader(datadir = datadir, layer = name, col_select = col_select)
+  data <- cbind(metadata, data)
+  data
 }
-

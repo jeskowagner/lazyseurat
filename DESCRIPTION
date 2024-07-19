@@ -16,4 +16,5 @@ Imports:
     arrow
 Depends:
     SeuratObject,
-    data.table
+    data.table,
+    precommit
