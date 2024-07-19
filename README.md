@@ -1,7 +1,3 @@
----
-output: github_document
----
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 
@@ -12,8 +8,8 @@ output: github_document
 <!-- badges: end -->
 
 The goal of lazyseurat is to allow import and export Seurat objects to and from
-    file-backed storage. 
-    Note that LazySeurat is not meant to be used during analysis, 
+    file-backed storage.
+    Note that LazySeurat is not meant to be used during analysis,
     but rather for data visualisation on research dissemination
     platforms, where it can save computational costs.
 
@@ -33,16 +29,23 @@ Convert a Seurat object to allow lazy loading:
 
 ``` r
 library(lazyseurat)
+
+# Install SeuratData to get example data
+if(!requireNamespace("SeuratData", quietly = TRUE)){
+    devtools::install_github('satijalab/seurat-data')
+}
+
 library(SeuratData)
-#> Error in library(SeuratData): there is no package called 'SeuratData'
-# Get example data
-InstallData("pbmc3k")
-#> Error in InstallData("pbmc3k"): could not find function "InstallData"
-data("pbmc3k")
-#> Warning in data("pbmc3k"): data set 'pbmc3k' not found
+
+# Download example data
+if("pbmc3k.SeuratData" %in% rownames(InstalledData())){
+    data("pbmc3k")
+} else {
+    InstallData("pbmc3k")
+}
 
 # Export Seurat object to feather for lazy loading
-write_seurat_to_feather("lazyseurat")
-#> Error in obj[[]]: missing subscript
+write_seurat_to_feather(pmbc3k, "lazyseurat")
+#> Error in eval(expr, envir, enclos): object 'pmbc3k' not found
 ```
 
