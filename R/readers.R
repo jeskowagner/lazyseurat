@@ -2,6 +2,7 @@
 #' Check if table exists in database.
 #'
 #' @param con Connection to database
+#' @param schema Schema name to check
 #' @param table Table name to check
 #'
 #' @importFrom DBI Id dbListTables
@@ -32,7 +33,6 @@ return_tibble <- function(table, col_select = NULL) {
 #' Read metadata of Seurat object.
 #'
 #' @param con Connection to database
-#' @param col_select Optional vector of columns to read.
 #'
 #' @return tibble of read data
 #' @export

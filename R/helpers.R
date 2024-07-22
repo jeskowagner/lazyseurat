@@ -11,7 +11,6 @@
 #' @importFrom data.table transpose setnames as.data.table
 #' @importFrom SeuratObject LayerData
 get_dense_layer <- function(obj, assay = NULL, layer = NULL) {
-  require(SeuratObject)
   counts_raw <- LayerData(obj, assay = assay, layer = layer)
   # suppress warnings of large memory allocation, to be expected
   counts_dt <- suppressWarnings(transpose(as.data.table(counts_raw)))

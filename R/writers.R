@@ -35,7 +35,6 @@ write_seurat_counts <- function(obj, con, layers = NULL) {
 #' @importFrom SeuratObject Embeddings
 #' @importFrom DBI Id dbSendQuery dbWriteTable
 write_seurat_embeddings <- function(obj, con = ".", layers = NULL) {
-  require(SeuratObject)
   if (is.null(layers)) {
     layers <- get_embedding_names(obj)
   }
