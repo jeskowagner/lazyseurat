@@ -2,96 +2,90 @@
 #' Write out all data stored in layers, like counts and scaled data.
 #'
 #' @param obj Seurat object.
-#' @param outdir Path to output directory.
+#' @param con Connection to database.
 #' @param layers Which layers to export. Leave empty for all.
 #'
-#' @return Vector of written file paths.
 #' @export
-#' @importFrom arrow write_feather
+#' @importFrom duckdb dbWriteTable
 #' @importFrom SeuratObject Layers
-write_seurat_counts <- function(obj, outdir = ".", layers = NULL) {
+write_seurat_counts <- function(obj, con, layers = NULL) {
   if (is.null(layers)) {
     layers <- Layers(obj)
   }
 
-  out_paths <- c()
+  dbSendQuery(con, "CREATE SCHEMA IF NOT EXISTS layer")
   for (l in layers) {
-    out_paths <- c(out_paths, file.path(outdir, "layer", paste0(l, ".feather")))
-    create_parent_dir(out_paths[length(out_paths)])
     counts <- get_dense_layer(obj, layer = l)
-    write_feather(counts, out_paths[length(out_paths)])
-    rm(counts)
-    gc()
+    dbWriteTable(con,
+      name = Id(schema = "layer", table = l),
+      value = counts,
+      overwrite = TRUE
+    )
   }
-  gc()
-  invisible(out_paths)
 }
 
 #' write_seurat_embeddings
 #' Write out all data stored in embeddings, like PCA and UMAP coordinates
 #'
 #' @param obj Seurat object.
-#' @param outdir Path to output directory.
+#' @param con Connection to database.
 #' @param layers Which layers to export. Leave empty for all.
 #'
-#' @return Vector of written file paths.
 #' @export
-#' @importFrom data.table as.data.table
-#' @importFrom arrow write_feather
+#' @importFrom duckdb dbWriteTable
 #' @importFrom SeuratObject Embeddings
-write_seurat_embeddings <- function(obj, outdir = ".", layers = NULL) {
+write_seurat_embeddings <- function(obj, con = ".", layers = NULL) {
   require(SeuratObject)
   if (is.null(layers)) {
     layers <- get_embedding_names(obj)
   }
 
-  out_paths <- c()
+  dbSendQuery(con, "CREATE SCHEMA IF NOT EXISTS embedding")
   for (e in layers) {
-    out_paths <- c(out_paths, file.path(
-      outdir,
-      "embedding",
-      paste0(e, ".feather")
-    ))
-    create_parent_dir(out_paths[length(out_paths)])
-    coordinates <- as.data.table(Embeddings(obj, reduction = e))
-    write_feather(coordinates, out_paths[length(out_paths)])
-    rm(coordinates)
-    gc()
+    coordinates <- as.data.frame(Embeddings(obj, reduction = e))
+    dbWriteTable(con,
+      name = Id(schema = "embedding", table = e),
+      value = coordinates,
+      overwrite = TRUE
+    )
   }
-  gc()
-  invisible(out_paths)
 }
 
 #' write_seurat_metadata
 #' Write out all data stored in metadata of Seurat object.
 #'
 #' @param obj Seurat object.
-#' @param outdir Path to output directory.
+#' @param con Connection to database.
 #'
-#' @return Vector of written file paths.
 #' @export
-#' @importFrom arrow write_feather
-write_seurat_metadata <- function(obj, outdir = ".") {
-  out_path <- file.path(outdir, "metadata", "metadata.feather")
-  create_parent_dir(out_path)
+#' @importFrom duckdb dbWriteTable
+#' @importFrom janitor clean_names
+write_seurat_metadata <- function(obj, con = ".") {
   metadata <- obj[[]]
   barcode <- rownames(metadata)
   metadata <- cbind(barcode, metadata)
-  write_feather(metadata, out_path)
-  invisible(out_path)
+  rownames(metadata) <- NULL
+  metadata <- clean_names(metadata)
+  dbSendQuery(con, "CREATE SCHEMA IF NOT EXISTS metadata")
+  dbWriteTable(con,
+    name = Id(schema = "metadata", table = "metadata"),
+    value = metadata,
+    overwrite = TRUE
+  )
 }
 
-#' write_seurat_to_feather
+#' write_seurat_to_db
 #' Write out all data stored in Seurat object.
 #'
 #' @param obj Seurat object.
-#' @param outdir Path to output directory.
+#' @param db Path to database
 #'
 #' @return Vector of written file paths.
 #' @export
-write_seurat_to_feather <- function(obj, outdir = ".") {
-  meta_files <- write_seurat_metadata(obj, outdir)
-  counts_files <- write_seurat_counts(obj, outdir)
-  embedding_files <- write_seurat_embeddings(obj, outdir)
-  invisible(return(c(meta_files, counts_files, embedding_files)))
+write_seurat_to_db <- function(obj, db = "seurat.duckdb") {
+  con <- dbConnect(duckdb(), db, read_only = FALSE)
+  write_seurat_metadata(obj, con)
+  write_seurat_counts(obj, con)
+  write_seurat_embeddings(obj, con)
+  dbDisconnect(con)
 }

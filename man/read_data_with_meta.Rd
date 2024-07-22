@@ -5,15 +5,10 @@
 \title{read_data_with_meta
 Read count data of Seurat object and merge it with metadata.}
 \usage{
-read_data_with_meta(
-  datadir = ".",
-  what = "layer",
-  name = "counts",
-  col_select = NULL
-)
+read_data_with_meta(db, what = "layer", name = "counts", col_select = NULL)
 }
 \arguments{
-\item{datadir}{Path to parent directory of feather files.}
+\item{db}{Path to database}
 
 \item{what}{Whether to read count data (\code{layer}) or an \code{embedding}.}
 

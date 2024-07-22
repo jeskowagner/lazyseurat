@@ -5,15 +5,12 @@
 \title{write_seurat_metadata
 Write out all data stored in metadata of Seurat object.}
 \usage{
-write_seurat_metadata(obj, outdir = ".")
+write_seurat_metadata(obj, con = ".")
 }
 \arguments{
 \item{obj}{Seurat object.}
 
-\item{outdir}{Path to output directory.}
-}
-\value{
-Vector of written file paths.
+\item{con}{Connection to database.}
 }
 \description{
 write_seurat_metadata

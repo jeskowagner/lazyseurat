@@ -5,17 +5,14 @@
 \title{write_seurat_embeddings
 Write out all data stored in embeddings, like PCA and UMAP coordinates}
 \usage{
-write_seurat_embeddings(obj, outdir = ".", layers = NULL)
+write_seurat_embeddings(obj, con = ".", layers = NULL)
 }
 \arguments{
 \item{obj}{Seurat object.}
 
-\item{outdir}{Path to output directory.}
+\item{con}{Connection to database.}
 
 \item{layers}{Which layers to export. Leave empty for all.}
-}
-\value{
-Vector of written file paths.
 }
 \description{
 write_seurat_embeddings

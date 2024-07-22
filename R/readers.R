@@ -1,72 +1,101 @@
-library(arrow)
+library(duckdb)
+
+
+#' table_in_db
+#' Check if table exists in database.
+#'
+#' @param con Connection to database
+#' @param table Table name to check
+#'
+#' @importFrom duckdb dbListTables
+check_table_in_db <- function(con, schema, table) {
+  if (!table %in% dbListTables(con, Id(schema = schema, table = table))) {
+    stop(paste0("Table ", table, " not found in database"))
+  }
+}
+
+#' return_tibble
+#' Collect and return data as tibble.
+#'
+#' @param table Table to collect
+#' @param col_select Optional vector of columns to select.
+#'
+#' @return tibble of collected data
+#' @importFrom dplyr collect as_tibble all_of select %>%
+return_tibble <- function(table, col_select = NULL) {
+  if (!is.null(col_select)) {
+    table <- table %>% select(all_of(col_select))
+  }
+  table %>%
+    collect() %>%
+    as_tibble()
+}
 
 #' read_metadata
 #' Read metadata of Seurat object.
 #'
-#' @param datadir Path to parent directory of feather files.
+#' @param con Connection to database
 #' @param col_select Optional vector of columns to read.
 #'
-#' @return data.frame of read data
+#' @return tibble of read data
 #' @export
-#' @importFrom arrow read_feather
-read_metadata <- function(datadir = ".", col_select = NULL) {
-  file <- file.path(datadir, "metadata", "metadata.feather")
-  read_feather(file, col_select = col_select)
+#' @importFrom dplyr tbl
+read_metadata <- function(con) {
+  tbl(con, Id(schema = "metadata", table = "metadata")) %>% return_tibble()
 }
 
 #' read_layer
 #' Read count data of Seurat object.
 #'
-#' @param datadir Path to parent directory of feather files.
+#' @param con Connection to database
 #' @param layer Which layer to read.
 #' @param col_select Optional vector of columns to read.
 #'
-#' @return data.frame of read data
+#' @return tibble of read data
 #' @export
-#' @importFrom arrow read_feather
-read_layer <- function(datadir = ".", layer = "counts", col_select = NULL) {
-  file <- file.path(datadir, "layer", paste0(layer, ".feather"))
-  read_feather(file, col_select = col_select)
+#' @importFrom dplyr tbl
+read_layer <- function(con, layer = "counts", col_select = NULL) {
+  tbl(con, Id(schema = "layer", table = layer)) %>% return_tibble(col_select)
 }
 
 #' read_embedding
 #' Read embedding data of Seurat object.
 #'
-#' @param datadir Path to parent directory of feather files.
+#' @param con Connection to database
 #' @param layer Which layer to read.
 #' @param col_select Optional vector of columns to read.
 #'
-#' @return data.frame of read data
+#' @return tibble of read data
 #' @export
-#' @importFrom arrow read_feather
-read_embedding <- function(datadir = ".", layer = "umap", col_select = NULL) {
-  file <- file.path(datadir, "embedding", paste0(layer, ".feather"))
-  read_feather(file, col_select = col_select)
+#' @importFrom dplyr tbl
+read_embedding <- function(con, layer = "umap", col_select = NULL) {
+  tbl(con, Id(schema = "embedding", table = layer)) %>%
+    return_tibble(col_select)
 }
 
 #' read_data_with_meta
 #' Read count data of Seurat object and merge it with metadata.
 #'
-#' @param datadir Path to parent directory of feather files.
+#' @param db Path to database
 #' @param what Whether to read count data (`layer`) or an `embedding`.
 #' @param name Which layer of data to read (e.g. `counts`).
 #' @param col_select Optional vector of columns to read of layer/embedding.
 #'
 #' @return data.frame of read data
 #' @export
-#' @importFrom arrow read_feather
-read_data_with_meta <- function(datadir = ".",
+#' @importFrom dplyr bind_cols
+read_data_with_meta <- function(db,
                                 what = "layer",
                                 name = "counts",
                                 col_select = NULL) {
+  con <- dbConnect(duckdb(), db, read_only = TRUE)
+  check_table_in_db(con, schema = "metadata", table = "metadata")
+  check_table_in_db(con, schema = what, table = name)
   reader <- switch(what,
-    "layer" = read_layer,
-    "embedding" = read_embedding,
-    stop("`what` must be 'layer' or 'embedding'")
+    layer = read_layer,
+    embedding = read_embedding
   )
-
-  metadata <- read_metadata(datadir = datadir)
-  data <- reader(datadir = datadir, layer = name, col_select = col_select)
-  data <- cbind(metadata, data)
-  data
+  res <- read_metadata(con) %>% bind_cols(reader(con, name, col_select))
+  dbDisconnect(con)
+  return(res)
 }

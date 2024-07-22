@@ -60,3 +60,17 @@ get_embedding_names <- function(obj) {
 subset_data <- function(data, subset_col, subset_values) {
   data[data[[subset_col]] %in% subset_values, ]
 }
+
+#' check_if_duplicated_columns
+#' Check if there are duplicated columns in a data.frame.
+#'
+#' @param df The data.frame to check
+#'
+#' @return Vector with names of duplicated columns.
+#' @export
+#' @importFrom stringr str_to_lower
+which_duplicated_columns <- function(df) {
+  cols <- str_to_lower(colnames(df))
+  dups <- duplicated(cols) | duplicated(cols, fromLast = TRUE)
+  ifelse(any(dups), cols[dups], NULL)
+}

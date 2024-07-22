@@ -5,15 +5,15 @@
 \title{read_metadata
 Read metadata of Seurat object.}
 \usage{
-read_metadata(datadir = ".", col_select = NULL)
+read_metadata(con)
 }
 \arguments{
-\item{datadir}{Path to parent directory of feather files.}
+\item{con}{Connection to database}
 
 \item{col_select}{Optional vector of columns to read.}
 }
 \value{
-data.frame of read data
+tibble of read data
 }
 \description{
 read_metadata

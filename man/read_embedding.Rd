@@ -5,17 +5,17 @@
 \title{read_embedding
 Read embedding data of Seurat object.}
 \usage{
-read_embedding(datadir = ".", layer = "umap", col_select = NULL)
+read_embedding(con, layer = "umap", col_select = NULL)
 }
 \arguments{
-\item{datadir}{Path to parent directory of feather files.}
+\item{con}{Connection to database}
 
 \item{layer}{Which layer to read.}
 
 \item{col_select}{Optional vector of columns to read.}
 }
 \value{
-data.frame of read data
+tibble of read data
 }
 \description{
 read_embedding
