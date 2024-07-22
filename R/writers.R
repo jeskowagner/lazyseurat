@@ -1,3 +1,5 @@
+library(DBI)
+
 #' write_seurat_counts
 #' Write out all data stored in layers, like counts and scaled data.
 #'
@@ -6,7 +8,7 @@
 #' @param layers Which layers to export. Leave empty for all.
 #'
 #' @export
-#' @importFrom duckdb dbWriteTable
+
 #' @importFrom SeuratObject Layers
 write_seurat_counts <- function(obj, con, layers = NULL) {
   if (is.null(layers)) {
@@ -32,7 +34,7 @@ write_seurat_counts <- function(obj, con, layers = NULL) {
 #' @param layers Which layers to export. Leave empty for all.
 #'
 #' @export
-#' @importFrom duckdb dbWriteTable
+
 #' @importFrom SeuratObject Embeddings
 write_seurat_embeddings <- function(obj, con = ".", layers = NULL) {
   require(SeuratObject)
@@ -58,7 +60,7 @@ write_seurat_embeddings <- function(obj, con = ".", layers = NULL) {
 #' @param con Connection to database.
 #'
 #' @export
-#' @importFrom duckdb dbWriteTable
+
 #' @importFrom janitor clean_names
 write_seurat_metadata <- function(obj, con = ".") {
   metadata <- obj[[]]
@@ -82,6 +84,8 @@ write_seurat_metadata <- function(obj, con = ".") {
 #'
 #' @return Vector of written file paths.
 #' @export
+#' @importFrom duckdb duckdb
+
 write_seurat_to_db <- function(obj, db = "seurat.duckdb") {
   con <- dbConnect(duckdb(), db, read_only = FALSE)
   write_seurat_metadata(obj, con)
