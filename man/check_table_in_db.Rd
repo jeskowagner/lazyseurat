@@ -10,6 +10,8 @@ check_table_in_db(con, schema, table)
 \arguments{
 \item{con}{Connection to database}
 
+\item{schema}{Schema name to check}
+
 \item{table}{Table name to check}
 }
 \description{

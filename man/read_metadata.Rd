@@ -9,8 +9,6 @@ read_metadata(con)
 }
 \arguments{
 \item{con}{Connection to database}
-
-\item{col_select}{Optional vector of columns to read.}
 }
 \value{
 tibble of read data
