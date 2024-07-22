@@ -17,7 +17,6 @@ Imports:
 Depends:
     SeuratObject,
     data.table,
-    precommit,
     dplyr,
     janitor,
     stringr
