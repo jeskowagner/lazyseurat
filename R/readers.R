@@ -1,11 +1,10 @@
-library(duckdb)
-library(DBI)
-
 #' table_in_db
 #' Check if table exists in database.
 #'
 #' @param con Connection to database
 #' @param table Table name to check
+#'
+#' @importFrom DBI Id dbListTables
 check_table_in_db <- function(con, schema, table) {
   if (!table %in% dbListTables(con, Id(schema = schema, table = table))) {
     stop(paste0("Table ", table, " not found in database"))
@@ -38,6 +37,7 @@ return_tibble <- function(table, col_select = NULL) {
 #' @return tibble of read data
 #' @export
 #' @importFrom dplyr tbl
+#' @importFrom DBI Id
 read_metadata <- function(con) {
   tbl(con, Id(schema = "metadata", table = "metadata")) %>% return_tibble()
 }
@@ -52,6 +52,7 @@ read_metadata <- function(con) {
 #' @return tibble of read data
 #' @export
 #' @importFrom dplyr tbl
+#' @importFrom DBI Id
 read_layer <- function(con, layer = "counts", col_select = NULL) {
   tbl(con, Id(schema = "layer", table = layer)) %>% return_tibble(col_select)
 }
@@ -66,6 +67,7 @@ read_layer <- function(con, layer = "counts", col_select = NULL) {
 #' @return tibble of read data
 #' @export
 #' @importFrom dplyr tbl
+#' @importFrom DBI Id
 read_embedding <- function(con, layer = "umap", col_select = NULL) {
   tbl(con, Id(schema = "embedding", table = layer)) %>%
     return_tibble(col_select)
@@ -82,6 +84,8 @@ read_embedding <- function(con, layer = "umap", col_select = NULL) {
 #' @return data.frame of read data
 #' @export
 #' @importFrom dplyr bind_cols %>%
+#' @importFrom DBI dbConnect dbDisconnect
+#' @importFrom duckdb duckdb
 read_data_with_meta <- function(db,
                                 what = "layer",
                                 name = "counts",

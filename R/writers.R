@@ -1,5 +1,3 @@
-library(DBI)
-
 #' write_seurat_counts
 #' Write out all data stored in layers, like counts and scaled data.
 #'
@@ -9,6 +7,7 @@ library(DBI)
 #'
 #' @export
 #' @importFrom SeuratObject Layers
+#' @importFrom DBI Id dbSendQuery dbWriteTable
 write_seurat_counts <- function(obj, con, layers = NULL) {
   if (is.null(layers)) {
     layers <- Layers(obj)
@@ -34,6 +33,7 @@ write_seurat_counts <- function(obj, con, layers = NULL) {
 #'
 #' @export
 #' @importFrom SeuratObject Embeddings
+#' @importFrom DBI Id dbSendQuery dbWriteTable
 write_seurat_embeddings <- function(obj, con = ".", layers = NULL) {
   require(SeuratObject)
   if (is.null(layers)) {
@@ -59,6 +59,7 @@ write_seurat_embeddings <- function(obj, con = ".", layers = NULL) {
 #'
 #' @export
 #' @importFrom janitor clean_names
+#' @importFrom DBI Id dbSendQuery dbWriteTable
 write_seurat_metadata <- function(obj, con = ".") {
   metadata <- obj[[]]
   barcode <- rownames(metadata)
@@ -82,6 +83,7 @@ write_seurat_metadata <- function(obj, con = ".") {
 #' @return Vector of written file paths.
 #' @export
 #' @importFrom duckdb duckdb
+#' @importFrom DBI dbConnect dbDisconnect
 write_seurat_to_db <- function(obj, db = "seurat.duckdb") {
   con <- dbConnect(duckdb(), db, read_only = FALSE)
   write_seurat_metadata(obj, con)
