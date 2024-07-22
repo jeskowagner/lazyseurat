@@ -47,4 +47,3 @@ devtools::install_github("jeskowagner/lazyseurat")
 <!-- # Export Seurat object to feather for lazy loading -->
 <!-- write_seurat_to_feather(pmbc3k, "lazyseurat") -->
 <!-- ``` -->
-
