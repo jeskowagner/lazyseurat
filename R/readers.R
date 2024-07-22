@@ -26,7 +26,7 @@ read_metadata <- function(datadir = ".", col_select = NULL) {
 #' @importFrom arrow read_feather
 read_layer <- function(datadir = ".", layer = "counts", col_select = NULL) {
   file <- file.path(datadir, "layer", paste0(layer, ".feather"))
-  read_feather(file, col_select = col_select, as_data_frame = FALSE)
+  read_feather(file, col_select = col_select)
 }
 
 #' read_embedding
