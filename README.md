@@ -18,32 +18,54 @@ The goal of lazyseurat is to allow import and export Seurat objects to and from
 
 You can install the development version of lazyseurat from [GitHub](https://github.com/) with:
 
+
 ``` r
 # install.packages("devtools")
 devtools::install_github("jeskowagner/lazyseurat")
 ```
 
-<!-- ## Example -->
+## Example
 
-<!-- Convert a Seurat object to allow lazy loading: -->
+### Step 1: Obtain some example data
 
-<!-- ```{r export_seurat} -->
-<!-- library(lazyseurat) -->
+``` r
+# Option 1: load in your own dataset
+library(Seurat)
+obj = readRDS("path/to/your/seurat_object.rds")
 
-<!-- # Install SeuratData to get example data -->
-<!-- if(!requireNamespace("SeuratData", quietly = TRUE)){ -->
-<!--     devtools::install_github('satijalab/seurat-data') -->
-<!-- } -->
+# Option 2: use the pbmc3k dataset
+# Install SeuratData to get example data
+if(!requireNamespace("SeuratData", quietly = TRUE)){
+    devtools::install_github('satijalab/seurat-data')
+}
+library(SeuratData)
+# Download example data
+if("pbmc3k.SeuratData" %in% rownames(InstalledData())){
+    data("pbmc3k")
+} else {
+    InstallData("pbmc3k")
+}
+obj = pbmc3k
+```
 
-<!-- library(SeuratData) -->
+### Step 2: Convert Seurat object to database
 
-<!-- # Download example data -->
-<!-- if("pbmc3k.SeuratData" %in% rownames(InstalledData())){ -->
-<!--     data("pbmc3k") -->
-<!-- } else { -->
-<!--     InstallData("pbmc3k") -->
-<!-- } -->
 
-<!-- # Export Seurat object to feather for lazy loading -->
-<!-- write_seurat_to_feather(pmbc3k, "lazyseurat") -->
-<!-- ``` -->
+``` r
+library(lazyseurat)
+
+# Export Seurat object to DuckDB
+# Note: this may take a minute
+write_seurat_to_db(obj, "seurat.duckdb")
+```
+
+### Step 3: Load Seurat data from database
+
+
+``` r
+# Open connection to database
+con <- get_connection("seurat.duckdb")
+
+# Read MYC gene expression
+read_data_with_meta(con=con, col_select="MYC")
+```

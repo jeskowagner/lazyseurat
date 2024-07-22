@@ -25,7 +25,7 @@ The goal of lazyseurat is to allow import and export Seurat objects to and from
 
 You can install the development version of lazyseurat from [GitHub](https://github.com/) with:
 
-```{r install}
+```{r install, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("jeskowagner/lazyseurat")
 ```
@@ -55,17 +55,17 @@ obj = pbmc3k
 
 ### Step 2: Convert Seurat object to database
 
-```{r export_seurat}
+```{r export_seurat, eval=FALSE}
 library(lazyseurat)
 
 # Export Seurat object to DuckDB
 # Note: this may take a minute
-write_seurat_to_db(pmbc3k, "seurat.duckdb")
+write_seurat_to_db(obj, "seurat.duckdb")
 ```
 
 ### Step 3: Load Seurat data from database
 
-```{r import_seurat}
+```{r import_seurat, eval=FALSE}
 # Open connection to database
 con <- get_connection("seurat.duckdb")
 
