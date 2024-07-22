@@ -86,18 +86,29 @@ read_embedding <- function(con, layer = "umap", col_select = NULL) {
 #' @importFrom dplyr bind_cols %>%
 #' @importFrom DBI dbConnect dbDisconnect
 #' @importFrom duckdb duckdb
-read_data_with_meta <- function(db,
+read_data_with_meta <- function(con,
                                 what = "layer",
                                 name = "counts",
                                 col_select = NULL) {
-  con <- dbConnect(duckdb(), db, read_only = TRUE)
   check_table_in_db(con, schema = "metadata", table = "metadata")
   check_table_in_db(con, schema = what, table = name)
   reader <- switch(what,
     layer = read_layer,
     embedding = read_embedding
   )
-  res <- read_metadata(con) %>% bind_cols(reader(con, name, col_select))
-  dbDisconnect(con)
-  return(res)
+  read_metadata(con) %>% bind_cols(reader(con, name, col_select))
+}
+
+#' get_connection
+#' Get connection to database.
+#'
+#' @param db Path to database
+#' @param read_only Whether to open connection in read-only mode.
+#'
+#' @return Connection to database
+#' @export
+#' @importFrom duckdb duckdb
+#' @importFrom DBI dbConnect
+get_connection <- function(db, read_only=TRUE) {
+  dbConnect(duckdb(), db, read_only = read_only)
 }
