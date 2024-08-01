@@ -36,7 +36,7 @@ get_embedding_names <- function(obj) {
   embeddings
 }
 
-#' check_if_duplicated_columns
+#' which_duplicated_columns
 #' @description Check if there are duplicated columns in a data.frame.
 #'
 #' @param df The data.frame to check

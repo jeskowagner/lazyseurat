@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{which_duplicated_columns}
 \alias{which_duplicated_columns}
-\title{check_if_duplicated_columns}
+\title{which_duplicated_columns}
 \usage{
 which_duplicated_columns(df)
 }
