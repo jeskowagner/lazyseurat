@@ -76,7 +76,7 @@ read_embedding <- function(con, layer = "umap", col_select = NULL) {
 #' read_data_with_meta
 #' Read count data of Seurat object and merge it with metadata.
 #'
-#' @param db Path to database
+#' @param con Connection to database
 #' @param what Whether to read count data (`layer`) or an `embedding`.
 #' @param name Which layer of data to read (e.g. `counts`).
 #' @param col_select Optional vector of columns to read of layer/embedding.
@@ -84,7 +84,6 @@ read_embedding <- function(con, layer = "umap", col_select = NULL) {
 #' @return data.frame of read data
 #' @export
 #' @importFrom dplyr bind_cols %>%
-#' @importFrom DBI dbConnect dbDisconnect
 #' @importFrom duckdb duckdb
 read_data_with_meta <- function(con,
                                 what = "layer",

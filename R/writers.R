@@ -88,5 +88,5 @@ write_seurat_to_db <- function(obj, db = "seurat.duckdb") {
   write_seurat_metadata(obj, con)
   write_seurat_counts(obj, con)
   write_seurat_embeddings(obj, con)
-  dbDisconnect(con)
+  dbDisconnect(con, shutdown=TRUE)
 }

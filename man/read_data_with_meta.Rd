@@ -8,13 +8,13 @@ Read count data of Seurat object and merge it with metadata.}
 read_data_with_meta(con, what = "layer", name = "counts", col_select = NULL)
 }
 \arguments{
+\item{con}{Connection to database}
+
 \item{what}{Whether to read count data (\code{layer}) or an \code{embedding}.}
 
 \item{name}{Which layer of data to read (e.g. \code{counts}).}
 
 \item{col_select}{Optional vector of columns to read of layer/embedding.}
-
-\item{db}{Path to database}
 }
 \value{
 data.frame of read data
