@@ -2,8 +2,7 @@
 % Please edit documentation in R/readers.R
 \name{return_tibble}
 \alias{return_tibble}
-\title{return_tibble
-Collect and return data as tibble.}
+\title{return_tibble}
 \usage{
 return_tibble(table, col_select = NULL)
 }
@@ -16,6 +15,5 @@ return_tibble(table, col_select = NULL)
 tibble of collected data
 }
 \description{
-return_tibble
 Collect and return data as tibble.
 }

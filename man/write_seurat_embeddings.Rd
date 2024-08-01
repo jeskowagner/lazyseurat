@@ -2,8 +2,7 @@
 % Please edit documentation in R/writers.R
 \name{write_seurat_embeddings}
 \alias{write_seurat_embeddings}
-\title{write_seurat_embeddings
-Write out all data stored in embeddings, like PCA and UMAP coordinates}
+\title{write_seurat_embeddings}
 \usage{
 write_seurat_embeddings(obj, con = ".", layers = NULL)
 }
@@ -15,6 +14,5 @@ write_seurat_embeddings(obj, con = ".", layers = NULL)
 \item{layers}{Which layers to export. Leave empty for all.}
 }
 \description{
-write_seurat_embeddings
 Write out all data stored in embeddings, like PCA and UMAP coordinates
 }

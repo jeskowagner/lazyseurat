@@ -2,8 +2,7 @@
 % Please edit documentation in R/writers.R
 \name{write_seurat_to_db}
 \alias{write_seurat_to_db}
-\title{write_seurat_to_db
-Write out all data stored in Seurat object.}
+\title{write_seurat_to_db}
 \usage{
 write_seurat_to_db(obj, db = "seurat.duckdb")
 }
@@ -16,6 +15,5 @@ write_seurat_to_db(obj, db = "seurat.duckdb")
 Vector of written file paths.
 }
 \description{
-write_seurat_to_db
 Write out all data stored in Seurat object.
 }

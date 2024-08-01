@@ -30,21 +30,21 @@ devtools::install_github("jeskowagner/lazyseurat")
 ``` r
 # Option 1: load in your own dataset
 library(Seurat)
-obj = readRDS("path/to/your/seurat_object.rds")
+obj <- readRDS("path/to/your/seurat_object.rds")
 
 # Option 2: use the pbmc3k dataset
 # Install SeuratData to get example data
-if(!requireNamespace("SeuratData", quietly = TRUE)){
-    devtools::install_github('satijalab/seurat-data')
+if (!requireNamespace("SeuratData", quietly = TRUE)) {
+  devtools::install_github("satijalab/seurat-data")
 }
 library(SeuratData)
 # Download example data
-if("pbmc3k.SeuratData" %in% rownames(InstalledData())){
-    data("pbmc3k")
+if ("pbmc3k.SeuratData" %in% rownames(InstalledData())) {
+  data("pbmc3k")
 } else {
-    InstallData("pbmc3k")
+  InstallData("pbmc3k")
 }
-obj = pbmc3k
+obj <- pbmc3k
 ```
 
 ### Step 2: Convert Seurat object to database
@@ -66,5 +66,5 @@ write_seurat_to_db(obj, "seurat.duckdb")
 con <- get_connection("seurat.duckdb")
 
 # Read MYC gene expression
-read_data_with_meta(con=con, col_select="MYC")
+read_data_with_meta(con = con, col_select = "MYC")
 ```

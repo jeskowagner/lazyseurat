@@ -2,8 +2,7 @@
 % Please edit documentation in R/writers.R
 \name{write_seurat_metadata}
 \alias{write_seurat_metadata}
-\title{write_seurat_metadata
-Write out all data stored in metadata of Seurat object.}
+\title{write_seurat_metadata}
 \usage{
 write_seurat_metadata(obj, con = ".")
 }
@@ -13,6 +12,5 @@ write_seurat_metadata(obj, con = ".")
 \item{con}{Connection to database.}
 }
 \description{
-write_seurat_metadata
 Write out all data stored in metadata of Seurat object.
 }

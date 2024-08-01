@@ -2,8 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{get_dense_layer}
 \alias{get_dense_layer}
-\title{get_dense_layer
-Convert a layer in Seurat object to dense data.table, with rows being cells.}
+\title{get_dense_layer}
 \usage{
 get_dense_layer(obj, assay = NULL, layer = NULL)
 }
@@ -18,6 +17,5 @@ get_dense_layer(obj, assay = NULL, layer = NULL)
 \code{data.table} with dense layer information.
 }
 \description{
-get_dense_layer
 Convert a layer in Seurat object to dense data.table, with rows being cells.
 }

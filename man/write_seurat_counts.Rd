@@ -2,8 +2,7 @@
 % Please edit documentation in R/writers.R
 \name{write_seurat_counts}
 \alias{write_seurat_counts}
-\title{write_seurat_counts
-Write out all data stored in layers, like counts and scaled data.}
+\title{write_seurat_counts}
 \usage{
 write_seurat_counts(obj, con, layers = NULL)
 }
@@ -15,6 +14,5 @@ write_seurat_counts(obj, con, layers = NULL)
 \item{layers}{Which layers to export. Leave empty for all.}
 }
 \description{
-write_seurat_counts
 Write out all data stored in layers, like counts and scaled data.
 }

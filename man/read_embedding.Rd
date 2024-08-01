@@ -2,8 +2,7 @@
 % Please edit documentation in R/readers.R
 \name{read_embedding}
 \alias{read_embedding}
-\title{read_embedding
-Read embedding data of Seurat object.}
+\title{read_embedding}
 \usage{
 read_embedding(con, layer = "umap", col_select = NULL)
 }
@@ -18,6 +17,5 @@ read_embedding(con, layer = "umap", col_select = NULL)
 tibble of read data
 }
 \description{
-read_embedding
 Read embedding data of Seurat object.
 }

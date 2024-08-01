@@ -2,8 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{get_embedding_names}
 \alias{get_embedding_names}
-\title{get_embedding_names
-Get names of dimensionality reduction embeddings in Seurat object.}
+\title{get_embedding_names}
 \usage{
 get_embedding_names(obj)
 }
@@ -14,6 +13,5 @@ get_embedding_names(obj)
 Vector of the embedding names.
 }
 \description{
-get_embedding_names
 Get names of dimensionality reduction embeddings in Seurat object.
 }

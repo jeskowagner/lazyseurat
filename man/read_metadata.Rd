@@ -2,8 +2,7 @@
 % Please edit documentation in R/readers.R
 \name{read_metadata}
 \alias{read_metadata}
-\title{read_metadata
-Read metadata of Seurat object.}
+\title{read_metadata}
 \usage{
 read_metadata(con)
 }
@@ -14,6 +13,5 @@ read_metadata(con)
 tibble of read data
 }
 \description{
-read_metadata
 Read metadata of Seurat object.
 }

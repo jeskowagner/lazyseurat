@@ -2,8 +2,7 @@
 % Please edit documentation in R/readers.R
 \name{get_connection}
 \alias{get_connection}
-\title{get_connection
-Get connection to database.}
+\title{get_connection}
 \usage{
 get_connection(db, read_only = TRUE)
 }
@@ -16,6 +15,5 @@ get_connection(db, read_only = TRUE)
 Connection to database
 }
 \description{
-get_connection
 Get connection to database.
 }

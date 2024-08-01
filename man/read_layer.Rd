@@ -2,8 +2,7 @@
 % Please edit documentation in R/readers.R
 \name{read_layer}
 \alias{read_layer}
-\title{read_layer
-Read count data of Seurat object.}
+\title{read_layer}
 \usage{
 read_layer(con, layer = "counts", col_select = NULL)
 }
@@ -18,6 +17,5 @@ read_layer(con, layer = "counts", col_select = NULL)
 tibble of read data
 }
 \description{
-read_layer
 Read count data of Seurat object.
 }

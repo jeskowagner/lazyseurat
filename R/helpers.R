@@ -1,5 +1,5 @@
 #' get_dense_layer
-#' Convert a layer in Seurat object to dense data.table, with rows being cells.
+#' @description Convert a layer in Seurat object to dense data.table, with rows being cells.
 #'
 #' @param obj Seurat object
 #' @param assay Which assay to use (e.g. "RNA")
@@ -19,7 +19,7 @@ get_dense_layer <- function(obj, assay = NULL, layer = NULL) {
 }
 
 #' get_embedding_names
-#' Get names of dimensionality reduction embeddings in Seurat object.
+#' @description Get names of dimensionality reduction embeddings in Seurat object.
 #'
 #' @param obj Seurat object
 #'
@@ -37,7 +37,7 @@ get_embedding_names <- function(obj) {
 }
 
 #' check_if_duplicated_columns
-#' Check if there are duplicated columns in a data.frame.
+#' @description Check if there are duplicated columns in a data.frame.
 #'
 #' @param df The data.frame to check
 #'

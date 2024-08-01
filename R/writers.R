@@ -1,5 +1,5 @@
 #' write_seurat_counts
-#' Write out all data stored in layers, like counts and scaled data.
+#' @description Write out all data stored in layers, like counts and scaled data.
 #'
 #' @param obj Seurat object.
 #' @param con Connection to database.
@@ -25,7 +25,7 @@ write_seurat_counts <- function(obj, con, layers = NULL) {
 }
 
 #' write_seurat_embeddings
-#' Write out all data stored in embeddings, like PCA and UMAP coordinates
+#' @description Write out all data stored in embeddings, like PCA and UMAP coordinates
 #'
 #' @param obj Seurat object.
 #' @param con Connection to database.
@@ -51,7 +51,7 @@ write_seurat_embeddings <- function(obj, con = ".", layers = NULL) {
 }
 
 #' write_seurat_metadata
-#' Write out all data stored in metadata of Seurat object.
+#' @description Write out all data stored in metadata of Seurat object.
 #'
 #' @param obj Seurat object.
 #' @param con Connection to database.
@@ -74,7 +74,7 @@ write_seurat_metadata <- function(obj, con = ".") {
 }
 
 #' write_seurat_to_db
-#' Write out all data stored in Seurat object.
+#' @description Write out all data stored in Seurat object.
 #'
 #' @param obj Seurat object.
 #' @param db Path to database
@@ -88,5 +88,5 @@ write_seurat_to_db <- function(obj, db = "seurat.duckdb") {
   write_seurat_metadata(obj, con)
   write_seurat_counts(obj, con)
   write_seurat_embeddings(obj, con)
-  dbDisconnect(con, shutdown=TRUE)
+  dbDisconnect(con, shutdown = TRUE)
 }

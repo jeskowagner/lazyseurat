@@ -1,5 +1,5 @@
 #' table_in_db
-#' Check if table exists in database.
+#' @description Check if table exists in database.
 #'
 #' @param con Connection to database
 #' @param schema Schema name to check
@@ -13,7 +13,7 @@ check_table_in_db <- function(con, schema, table) {
 }
 
 #' return_tibble
-#' Collect and return data as tibble.
+#' @description Collect and return data as tibble.
 #'
 #' @param table Table to collect
 #' @param col_select Optional vector of columns to select.
@@ -30,7 +30,7 @@ return_tibble <- function(table, col_select = NULL) {
 }
 
 #' read_metadata
-#' Read metadata of Seurat object.
+#' @description Read metadata of Seurat object.
 #'
 #' @param con Connection to database
 #'
@@ -43,7 +43,7 @@ read_metadata <- function(con) {
 }
 
 #' read_layer
-#' Read count data of Seurat object.
+#' @description Read count data of Seurat object.
 #'
 #' @param con Connection to database
 #' @param layer Which layer to read.
@@ -58,7 +58,7 @@ read_layer <- function(con, layer = "counts", col_select = NULL) {
 }
 
 #' read_embedding
-#' Read embedding data of Seurat object.
+#' @description Read embedding data of Seurat object.
 #'
 #' @param con Connection to database
 #' @param layer Which layer to read.
@@ -74,7 +74,7 @@ read_embedding <- function(con, layer = "umap", col_select = NULL) {
 }
 
 #' read_data_with_meta
-#' Read count data of Seurat object and merge it with metadata.
+#' @description Read count data of Seurat object and merge it with metadata.
 #'
 #' @param con Connection to database
 #' @param what Whether to read count data (`layer`) or an `embedding`.
@@ -99,7 +99,7 @@ read_data_with_meta <- function(con,
 }
 
 #' get_connection
-#' Get connection to database.
+#' @description Get connection to database.
 #'
 #' @param db Path to database
 #' @param read_only Whether to open connection in read-only mode.
@@ -108,6 +108,6 @@ read_data_with_meta <- function(con,
 #' @export
 #' @importFrom duckdb duckdb
 #' @importFrom DBI dbConnect
-get_connection <- function(db, read_only=TRUE) {
+get_connection <- function(db, read_only = TRUE) {
   dbConnect(duckdb(), db, read_only = read_only)
 }

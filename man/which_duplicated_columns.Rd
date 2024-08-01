@@ -2,8 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{which_duplicated_columns}
 \alias{which_duplicated_columns}
-\title{check_if_duplicated_columns
-Check if there are duplicated columns in a data.frame.}
+\title{check_if_duplicated_columns}
 \usage{
 which_duplicated_columns(df)
 }
@@ -14,6 +13,5 @@ which_duplicated_columns(df)
 Vector with names of duplicated columns.
 }
 \description{
-check_if_duplicated_columns
 Check if there are duplicated columns in a data.frame.
 }

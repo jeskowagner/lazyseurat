@@ -2,8 +2,7 @@
 % Please edit documentation in R/readers.R
 \name{read_data_with_meta}
 \alias{read_data_with_meta}
-\title{read_data_with_meta
-Read count data of Seurat object and merge it with metadata.}
+\title{read_data_with_meta}
 \usage{
 read_data_with_meta(con, what = "layer", name = "counts", col_select = NULL)
 }
@@ -20,6 +19,5 @@ read_data_with_meta(con, what = "layer", name = "counts", col_select = NULL)
 data.frame of read data
 }
 \description{
-read_data_with_meta
 Read count data of Seurat object and merge it with metadata.
 }

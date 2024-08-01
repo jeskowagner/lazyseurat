@@ -2,8 +2,7 @@
 % Please edit documentation in R/readers.R
 \name{check_table_in_db}
 \alias{check_table_in_db}
-\title{table_in_db
-Check if table exists in database.}
+\title{table_in_db}
 \usage{
 check_table_in_db(con, schema, table)
 }
@@ -15,6 +14,5 @@ check_table_in_db(con, schema, table)
 \item{table}{Table name to check}
 }
 \description{
-table_in_db
 Check if table exists in database.
 }
