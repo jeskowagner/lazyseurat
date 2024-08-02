@@ -133,7 +133,7 @@ read_embedding <- function(db_file, layer = "umap", col_select = NULL) {
 #' read_data_with_meta
 #' @description Read count data of Seurat object and merge it with metadata.
 #'
-#' @param Path to database file.
+#' @param db_file Path to database file.
 #' @param what Whether to read count data (`layer`) or an `embedding`.
 #' @param name Which layer of data to read (e.g. `counts`).
 #' @param col_select Optional vector of columns to read of layer/embedding.
@@ -146,14 +146,13 @@ read_data_with_meta <- function(db_file,
                                 what = "layer",
                                 name = "counts",
                                 col_select = NULL) {
-  con <- withr::local_db_connection(get_connection(db_file))
-  check_table_in_db(con, schema = "metadata", table = "metadata")
-  check_table_in_db(con, schema = what, table = name)
+  check_table_in_db(db_file, schema = "metadata", table = "metadata")
+  check_table_in_db(db_file, schema = what, table = name)
   reader <- switch(what,
     layer = read_layer,
     embedding = read_embedding
   )
-  read_metadata(con) %>% bind_cols(reader(con, name, col_select))
+  read_metadata(db_file) %>% bind_cols(reader(db_file, name, col_select))
 }
 
 #' get_connection

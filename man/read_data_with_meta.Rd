@@ -12,13 +12,13 @@ read_data_with_meta(
 )
 }
 \arguments{
+\item{db_file}{Path to database file.}
+
 \item{what}{Whether to read count data (\code{layer}) or an \code{embedding}.}
 
 \item{name}{Which layer of data to read (e.g. \code{counts}).}
 
 \item{col_select}{Optional vector of columns to read of layer/embedding.}
-
-\item{Path}{to database file.}
 }
 \value{
 data.frame of read data
