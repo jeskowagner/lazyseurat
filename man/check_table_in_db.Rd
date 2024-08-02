@@ -4,10 +4,10 @@
 \alias{check_table_in_db}
 \title{table_in_db}
 \usage{
-check_table_in_db(con, schema, table)
+check_table_in_db(db_file, schema, table)
 }
 \arguments{
-\item{con}{Connection to database}
+\item{db_file}{Path to database file.}
 
 \item{schema}{Schema name to check}
 

@@ -1,15 +1,51 @@
 #' table_in_db
 #' @description Check if table exists in database.
 #'
-#' @param con Connection to database
+#' @param db_file Path to database file.
 #' @param schema Schema name to check
 #' @param table Table name to check
 #'
 #' @importFrom DBI Id dbListTables
-check_table_in_db <- function(con, schema, table) {
+check_table_in_db <- function(db_file, schema, table) {
+  con <- withr::local_db_connection(get_connection(db_file))
   if (!table %in% dbListTables(con, Id(schema = schema, table = table))) {
     stop(paste0("Table ", table, " not found in database"))
   }
+}
+
+
+#' Get Schemas in Database
+#'
+#' @description This function retrieves the names of all schemas
+#' in the connected database, excluding the default schemas.
+#'
+#' @param db_file Path to database file.
+#'
+#' @return A data frame containing the names of the schemas in the database.
+#'
+#' @export
+get_schemas_in_db <- function(db_file) {
+  con <- withr::local_db_connection(get_connection(db_file))
+  schemas <- DBI::dbGetQuery(con, "SELECT DISTINCT table_schema FROM information_schema.tables")
+  if (nrow(schemas) > 0) {
+    return(schemas$table_schema)
+  }
+  return(NULL)
+}
+
+#' Get Tables per Schema in Database
+#'
+#' @description This function retrieves the names of all tables
+#' in the connected database, listing them per schema.
+#'
+#' @param db_file Path to database file.
+#'
+#' @return A data frame containing the names of the tables and schemas in the database.
+#'
+#' @export
+get_tables_per_schema_in_db <- function(db_file) {
+  con <- withr::local_db_connection(get_connection(db_file))
+  DBI::dbGetQuery(con, "SELECT table_schema, table_name FROM information_schema.tables")
 }
 
 #' return_tibble
@@ -32,20 +68,21 @@ return_tibble <- function(table, col_select = NULL) {
 #' read_metadata
 #' @description Read metadata of Seurat object.
 #'
-#' @param con Connection to database
+#' @param db_file Path to database file.
 #'
 #' @return tibble of read data
 #' @export
 #' @importFrom dplyr tbl
 #' @importFrom DBI Id
-read_metadata <- function(con) {
+read_metadata <- function(db_file) {
+  con <- withr::local_db_connection(get_connection(db_file))
   tbl(con, Id(schema = "metadata", table = "metadata")) %>% return_tibble()
 }
 
 #' read_layer
 #' @description Read count data of Seurat object.
 #'
-#' @param con Connection to database
+#' @param db_file Path to database_file
 #' @param layer Which layer to read.
 #' @param col_select Optional vector of columns to read.
 #'
@@ -53,14 +90,15 @@ read_metadata <- function(con) {
 #' @export
 #' @importFrom dplyr tbl
 #' @importFrom DBI Id
-read_layer <- function(con, layer = "counts", col_select = NULL) {
+read_layer <- function(db_file, layer = "counts", col_select = NULL) {
+  con <- withr::local_db_connection(get_connection(db_file))
   tbl(con, Id(schema = "layer", table = layer)) %>% return_tibble(col_select)
 }
 
 #' read_embedding
 #' @description Read embedding data of Seurat object.
 #'
-#' @param con Connection to database
+#' @param db_file Path to database file.
 #' @param layer Which layer to read.
 #' @param col_select Optional vector of columns to read.
 #'
@@ -68,7 +106,8 @@ read_layer <- function(con, layer = "counts", col_select = NULL) {
 #' @export
 #' @importFrom dplyr tbl
 #' @importFrom DBI Id
-read_embedding <- function(con, layer = "umap", col_select = NULL) {
+read_embedding <- function(db_file, layer = "umap", col_select = NULL) {
+  con <- withr::local_db_connection(get_connection(db_file))
   tbl(con, Id(schema = "embedding", table = layer)) %>%
     return_tibble(col_select)
 }
@@ -76,7 +115,7 @@ read_embedding <- function(con, layer = "umap", col_select = NULL) {
 #' read_data_with_meta
 #' @description Read count data of Seurat object and merge it with metadata.
 #'
-#' @param con Connection to database
+#' @param Path to database file.
 #' @param what Whether to read count data (`layer`) or an `embedding`.
 #' @param name Which layer of data to read (e.g. `counts`).
 #' @param col_select Optional vector of columns to read of layer/embedding.
@@ -85,10 +124,11 @@ read_embedding <- function(con, layer = "umap", col_select = NULL) {
 #' @export
 #' @importFrom dplyr bind_cols %>%
 #' @importFrom duckdb duckdb
-read_data_with_meta <- function(con,
+read_data_with_meta <- function(db_file,
                                 what = "layer",
                                 name = "counts",
                                 col_select = NULL) {
+  con <- withr::local_db_connection(get_connection(db_file))
   check_table_in_db(con, schema = "metadata", table = "metadata")
   check_table_in_db(con, schema = what, table = name)
   reader <- switch(what,
@@ -101,13 +141,13 @@ read_data_with_meta <- function(con,
 #' get_connection
 #' @description Get connection to database.
 #'
-#' @param db Path to database
+#' @param db_file Path to database
 #' @param read_only Whether to open connection in read-only mode.
 #'
 #' @return Connection to database
 #' @export
 #' @importFrom duckdb duckdb
 #' @importFrom DBI dbConnect
-get_connection <- function(db, read_only = TRUE) {
-  dbConnect(duckdb(), db, read_only = read_only)
+get_connection <- function(db_file, read_only = TRUE) {
+  dbConnect(duckdb(), db_file, read_only = read_only)
 }

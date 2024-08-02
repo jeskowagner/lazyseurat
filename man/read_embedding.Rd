@@ -4,10 +4,10 @@
 \alias{read_embedding}
 \title{read_embedding}
 \usage{
-read_embedding(con, layer = "umap", col_select = NULL)
+read_embedding(db_file, layer = "umap", col_select = NULL)
 }
 \arguments{
-\item{con}{Connection to database}
+\item{db_file}{Path to database file.}
 
 \item{layer}{Which layer to read.}
 

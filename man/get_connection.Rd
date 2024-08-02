@@ -4,10 +4,10 @@
 \alias{get_connection}
 \title{get_connection}
 \usage{
-get_connection(db, read_only = TRUE)
+get_connection(db_file, read_only = TRUE)
 }
 \arguments{
-\item{db}{Path to database}
+\item{db_file}{Path to database}
 
 \item{read_only}{Whether to open connection in read-only mode.}
 }

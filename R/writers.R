@@ -86,7 +86,7 @@ write_seurat_metadata <- function(obj, con = ".") {
 #' @importFrom withr defer local_db_connection
 write_seurat_to_db <- function(obj, db = "seurat.duckdb") {
   con <- local_db_connection(duckdb::dbConnect(duckdb::duckdb(), db, read_only = FALSE))
-  defer(suppressWarnings(DBI::dbDisconnect(con, shutdown=TRUE)))
+  defer(suppressWarnings(DBI::dbDisconnect(con, shutdown = TRUE)))
   write_seurat_metadata(obj, con)
   write_seurat_counts(obj, con)
   write_seurat_embeddings(obj, con)

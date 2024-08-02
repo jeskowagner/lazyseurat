@@ -4,10 +4,10 @@
 \alias{read_metadata}
 \title{read_metadata}
 \usage{
-read_metadata(con)
+read_metadata(db_file)
 }
 \arguments{
-\item{con}{Connection to database}
+\item{db_file}{Path to database file.}
 }
 \value{
 tibble of read data

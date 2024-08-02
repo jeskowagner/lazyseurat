@@ -4,10 +4,10 @@
 \alias{read_layer}
 \title{read_layer}
 \usage{
-read_layer(con, layer = "counts", col_select = NULL)
+read_layer(db_file, layer = "counts", col_select = NULL)
 }
 \arguments{
-\item{con}{Connection to database}
+\item{db_file}{Path to database_file}
 
 \item{layer}{Which layer to read.}
 
