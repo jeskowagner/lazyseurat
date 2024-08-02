@@ -48,6 +48,24 @@ get_tables_per_schema_in_db <- function(db_file) {
   DBI::dbGetQuery(con, "SELECT table_schema, table_name FROM information_schema.tables")
 }
 
+#' Get Tables for a Specific Schema
+#'
+#' @description This function retrieves the names of all tables
+#' in the connected database, selecting only tables matching a schema.
+#'
+#' @param db_file Path to database file.
+#' @param schema Schema to find tables in
+#'
+#' @return Character vector with table names, if any.
+#'
+#' @export
+get_tables_in_schema <- function(db_file, schema) {
+  get_tables_per_schema_in_db(db_file) %>%
+    filter(table_schema == schema) %>%
+    pull(table_name) %>%
+    unique()
+}
+
 #' return_tibble
 #' @description Collect and return data as tibble.
 #'
