@@ -10,20 +10,23 @@
 #' @importFrom DBI Id dbSendQuery dbWriteTable
 #' @importFrom data.table setnames
 #' @importFrom dplyr %>% as_tibble
+#' @importFrom tibble rownames_to_column
 write_seurat_counts <- function(obj, con, layers = NULL) {
   if (is.null(layers)) {
     layers <- Layers(obj)
   }
-
+  cat("Writing counts to database...\n")
   dbSendQuery(con, "CREATE SCHEMA IF NOT EXISTS layer")
   dbSendQuery(con, "CREATE SCHEMA IF NOT EXISTS averages")
 
   for (l in layers) {
     counts <- get_dense_layer(obj, layer = l)
     averages <- LayerData(obj, layer = l) %>%
-      rowMeans() %>%
-      as_tibble %>%
-      setnames("average")
+      Matrix::rowMeans(.) %>%
+      as.data.frame %>%
+      setnames("average") %>%
+      rownames_to_column("gene")
+
 
     dbWriteTable(con,
       name = Id(schema = "layer", table = l),
@@ -53,7 +56,7 @@ write_seurat_embeddings <- function(obj, con = ".", layers = NULL) {
   if (is.null(layers)) {
     layers <- get_embedding_names(obj)
   }
-
+  cat("Writing embeddings to database...\n")
   dbSendQuery(con, "CREATE SCHEMA IF NOT EXISTS embedding")
   for (e in layers) {
     coordinates <- as.data.frame(Embeddings(obj, reduction = e))
@@ -80,6 +83,9 @@ write_seurat_metadata <- function(obj, con = ".") {
   metadata <- cbind(barcode, metadata)
   rownames(metadata) <- NULL
   metadata <- clean_names(metadata)
+
+  cat("Writing metadata to database...\n")
+
   dbSendQuery(con, "CREATE SCHEMA IF NOT EXISTS metadata")
   dbWriteTable(con,
     name = Id(schema = "metadata", table = "metadata"),
@@ -101,7 +107,7 @@ write_seurat_metadata <- function(obj, con = ".") {
 #' @importFrom withr defer local_db_connection
 write_seurat_to_db <- function(obj, db = "seurat.duckdb") {
   con <- local_db_connection(duckdb::dbConnect(duckdb::duckdb(), db, read_only = FALSE))
-  defer(suppressWarnings(DBI::dbDisconnect(con, shutdown = TRUE)))
+  defer(suppressWarnings(DBI::dbDisconnect(con, shutdown = TRUE)), priority = "last")
   write_seurat_metadata(obj, con)
   write_seurat_counts(obj, con)
   write_seurat_embeddings(obj, con)
