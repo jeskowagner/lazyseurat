@@ -6,19 +6,34 @@
 #' @param layers Which layers to export. Leave empty for all.
 #'
 #' @export
-#' @importFrom SeuratObject Layers
+#' @importFrom SeuratObject Layers LayerData
 #' @importFrom DBI Id dbSendQuery dbWriteTable
+#' @importFrom data.table setnames
+#' @importFrom dplyr %>% as_tibble
 write_seurat_counts <- function(obj, con, layers = NULL) {
   if (is.null(layers)) {
     layers <- Layers(obj)
   }
 
   dbSendQuery(con, "CREATE SCHEMA IF NOT EXISTS layer")
+  dbSendQuery(con, "CREATE SCHEMA IF NOT EXISTS averages")
+
   for (l in layers) {
     counts <- get_dense_layer(obj, layer = l)
+    averages <- LayerData(obj, layer = l) %>%
+      rowMeans() %>%
+      as_tibble %>%
+      setnames("average")
+
     dbWriteTable(con,
       name = Id(schema = "layer", table = l),
       value = counts,
+      overwrite = TRUE
+    )
+
+    dbWriteTable(con,
+      name = Id(schema = "averages", table = l),
+      value = averages,
       overwrite = TRUE
     )
   }
