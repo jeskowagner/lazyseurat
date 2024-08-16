@@ -12,5 +12,6 @@ write_seurat_metadata(obj, con = ".")
 \item{con}{Connection to database.}
 }
 \description{
-Write out all data stored in metadata of Seurat object.
+Write out all data stored in metadata and idents
+of Seurat object.
 }

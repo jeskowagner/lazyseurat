@@ -69,7 +69,8 @@ write_seurat_embeddings <- function(obj, con = ".", layers = NULL) {
 }
 
 #' write_seurat_metadata
-#' @description Write out all data stored in metadata of Seurat object.
+#' @description Write out all data stored in metadata and idents
+#' of Seurat object.
 #'
 #' @param obj Seurat object.
 #' @param con Connection to database.
@@ -77,11 +78,15 @@ write_seurat_embeddings <- function(obj, con = ".", layers = NULL) {
 #' @export
 #' @importFrom janitor clean_names
 #' @importFrom DBI Id dbSendQuery dbWriteTable
+#' @importFrom tibble rownames_to_column
 write_seurat_metadata <- function(obj, con = ".") {
   metadata <- obj[[]]
   barcode <- rownames(metadata)
   metadata <- cbind(barcode, metadata)
   rownames(metadata) <- NULL
+  idents <- rownames_to_column(as.data.frame(Idents(obj)), "barcode")
+  colnames(idents) <- c("barcode", "ident")
+  metadata <- merge(metadata, idents, by = "barcode")
   metadata <- clean_names(metadata)
 
   cat("Writing metadata to database...\n")
