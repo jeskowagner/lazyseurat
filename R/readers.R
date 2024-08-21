@@ -6,6 +6,7 @@
 #' @param table Table name to check
 #'
 #' @importFrom DBI Id dbListTables
+#' @importFrom withr local_db_connection
 check_table_in_db <- function(db_file, schema, table) {
   con <- withr::local_db_connection(get_connection(db_file))
   if (!table %in% dbListTables(con, Id(schema = schema, table = table))) {
@@ -23,6 +24,8 @@ check_table_in_db <- function(db_file, schema, table) {
 #'
 #' @return A data frame containing the names of the schemas in the database.
 #'
+#' @importFrom DBI dbGetQuery
+#' @importFrom withr local_db_connection
 #' @export
 get_schemas_in_db <- function(db_file) {
   con <- withr::local_db_connection(get_connection(db_file))
@@ -42,6 +45,8 @@ get_schemas_in_db <- function(db_file) {
 #'
 #' @return A data frame containing the names of the tables and schemas in the database.
 #'
+#' @importFrom DBI dbGetQuery
+#' @importFrom withr local_db_connection
 #' @export
 get_tables_per_schema_in_db <- function(db_file) {
   con <- withr::local_db_connection(get_connection(db_file))
@@ -58,6 +63,7 @@ get_tables_per_schema_in_db <- function(db_file) {
 #'
 #' @return Character vector with table names, if any.
 #'
+#' @importFrom dplyr filter pull
 #' @export
 get_tables_in_schema <- function(db_file, schema) {
   get_tables_per_schema_in_db(db_file) %>%
